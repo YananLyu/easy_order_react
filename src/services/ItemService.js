@@ -11,6 +11,10 @@ class ItemService {
     getItemById(itmeId) {
         return axios.get(ITEM_API_BASE_URL + '/' + itmeId);
     }
+
+    getActiveItems() {
+        return axios.get(ITEM_API_BASE_URL + '/active');
+    }
 }
 
 export default new ItemService();

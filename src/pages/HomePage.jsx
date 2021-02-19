@@ -3,7 +3,7 @@ import { Card, CardDeck, ListGroup, ListGroupItem } from 'react-bootstrap';
 
 import ItemService from '../services/ItemService';
 
-export default class HomeComponent extends Component {
+export default class HomePage extends Component {
     constructor(props) {
         super(props)
 
@@ -22,53 +22,6 @@ export default class HomeComponent extends Component {
     }
 
     render() {
-        // return (
-        //     <div>
-        //         <div className="card col-md-6 offset-md-3">
-        //             <h3 className="text-center"> Offer </h3>
-        //             <div className="card-body">
-        //                 <div className="row">
-        //                     <div>4 Active Offers</div>
-        //                 </div>
-        //                 <div className="row">
-        //                     <div>10 Expired Offers</div>
-        //                 </div>
-        //                 <div className="row">
-        //                     <div>) Proposed Offers</div>
-        //                 </div>
-        //             </div>
-        //         </div>
-        //         <div className="card col-md-6 offset-md-3">
-        //             <h3 className="text-center"> Inbound </h3>
-        //             <div className="card-body">
-        //                 <div className="row">
-        //                     <div>4 Active Offers</div>
-        //                 </div>
-        //                 <div className="row">
-        //                     <div>10 Expired Offers</div>
-        //                 </div>
-        //                 <div className="row">
-        //                     <div> Proposed Offers</div>
-        //                 </div>
-        //             </div>
-        //         </div>
-        //         <div className="card col-md-6 offset-md-3">
-        //             <h3 className="text-center"> Payment </h3>
-        //             <div className="card-body">
-        //                 <div className="row">
-        //                     <div>4 Active Offers</div>
-        //                 </div>
-        //                 <div className="row">
-        //                     <div>10 Expired Offers</div>
-        //                 </div>
-        //                 <div className="row">
-        //                     <div> Proposed Offers</div>
-        //                 </div>
-        //             </div>
-        //         </div>
-        //     </div>
-        // );
-
         return (
             <div>
                 <CardDeck>

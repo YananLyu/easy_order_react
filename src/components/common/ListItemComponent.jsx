@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import ItemService from '../services/ItemService';
+// import ItemService from '../../services/ItemService';
+// import OfferHeaderComponent from './OfferHeaderComponent';
 
 class ListItemComponent extends Component {
     constructor(props) {
@@ -9,16 +10,14 @@ class ListItemComponent extends Component {
             items: []
         }
 
-        this.addItem = this.addItem.bind(this);
         this.viewItem = this.viewItem.bind(this);
         this.takeItem = this.viewItem.bind(this);
-    }
-
-    addItem() {
-        this.props.history.push("/add-item/_add");
+        // this.getActiveItems = this.getActiveItems.bind(this);
     }
 
     viewItem(id) {
+        console.log(this.props);
+
         this.props.history.push(`/view-item/${id}`);
     }
 
@@ -28,18 +27,27 @@ class ListItemComponent extends Component {
 
 
     componentDidMount() {
-        ItemService.getItems().then(res => {
-            this.setState({ items: res.data });
-        });
+        // ItemService.getItems().then(res => {
+        //     this.setState({ items: res.data });
+        // });
+        console.log(this.state.props);
+
+        // if (this.state.id === "active") {
+        //     ItemService.getActiveItems().then(res => {
+        //         this.setState({ items: res.data });
+        //     });
+        // } else {
+        //     ItemService.getItems().then(res => {
+        //         this.setState({ items: res.data });
+        //     });
+        // }
     }
 
     render() {
         return (
             <div>
-                <h2 className="text-center">Item List</h2>
-                <div className="row">
-                    <button className="btn btn-primary" onClick={this.addItem}> Add Item </button>
-                </div>
+                <h2 className="text-center">All Products</h2>
+                {/* <OfferHeaderComponent /> */}
                 <div className="row">
                     <table className="table table-striped table-bordere">
                         <thead>
@@ -67,7 +75,7 @@ class ListItemComponent extends Component {
                                             <td>${item.priceBuyer}</td>
                                             <td>{item.quantityTotal}</td>
                                             <td>{item.quantityLeft}</td>
-                                            <td>{item.availableStatus}</td>
+                                            <td>{item.availableStatus ? "Yes" : "No"}</td>
                                             <td>
                                                 <button style={{ marginLeft: "10px" }} onClick={() => this.takeItem(item.id)} className="btn btn-success">Take</button>
                                                 <button style={{ marginLeft: "10px" }} onClick={() => this.viewItem(item.id)} className="btn btn-info">View</button>
