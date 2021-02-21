@@ -1,31 +1,16 @@
-import React, { Component } from 'react'
-import { Card, CardDeck, ListGroup, ListGroupItem } from 'react-bootstrap';
+import React from 'react'
+import {
+    useParams,
+} from "react-router-dom";
+import ListPaymentComponent from '../components/common/ListPaymentComponent';
 
-import ItemService from '../services/ItemService';
+export default function PaymentPage(props) {
+    let { id } = useParams();
 
-export default class PaymentPage extends Component {
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            items: {}
-        }
-
-
-    }
-
-    componentDidMount() {
-        ItemService.getItems().then(res => {
-            this.setState({ items: res.data });
-        });
-
-    }
-
-    render() {
-        return (
-            <div>
-                <h1>Payment</h1>
-            </div>
-        );
-    }
+    return (
+        <div>
+            <h1>Payment</h1>
+            <ListPaymentComponent category={id} />
+        </div>
+    );
 }

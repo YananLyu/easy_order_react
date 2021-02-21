@@ -1,31 +1,16 @@
-import React, { Component } from 'react'
-import { Card, CardDeck, ListGroup, ListGroupItem } from 'react-bootstrap';
+import React from 'react'
+import { useParams, useHistory } from 'react-router-dom';
+import ListInboundComponent from '../components/common/ListInboundComponent';
 
-import ItemService from '../services/ItemService';
+export default function InboundPage() {
+    let { id } = useParams();
+    let history = useHistory();
 
-export default class InboundPage extends Component {
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            items: {}
-        }
-
-
-    }
-
-    componentDidMount() {
-        ItemService.getItems().then(res => {
-            this.setState({ items: res.data });
-        });
-
-    }
-
-    render() {
-        return (
-            <div>
-                <h1>Inbound page</h1>
-            </div>
-        );
-    }
+    return (
+        <div>
+            <h2 className="text-center">{id}</h2>
+            <ListInboundComponent category={id} />
+        </div>
+    )
 }
+

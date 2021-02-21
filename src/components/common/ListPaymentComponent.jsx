@@ -1,40 +1,36 @@
-// import React, { Component } from 'react';
 import React, { useState, useEffect } from 'react';
 import { useHistory } from "react-router-dom";
 
 import ItemService from '../../services/ItemService';
 
-export default function ListItemComponent(props) {
+export default function ListPaymentComponent(props) {
     const [items, setItems] = useState([]);
     const category = props.category;
     let history = useHistory();
 
-    useEffect(async () => {
-        if (category === "active") {
-            ItemService.getActiveItems().then(res => {
-                setItems(res.data);
-            });
-        } else if (category === "expired") {
+    useEffect(() => {
+        if (category === "unpaid") {
             ItemService.getAllItems().then(res => {
                 setItems(res.data);
             });
-        } else if (category === "propose") {
+        } else if (category === "pending") {
             ItemService.getAllItems().then(res => {
                 setItems(res.data);
             });
-        } else if (category === "all") { // default is list all
+        } else if (category === "history") {
+            alert('history')
             ItemService.getAllItems().then(res => {
                 setItems(res.data);
             });
         }
     }, []);
 
-    function viewItem(id) {
-        history.push(`/offer/view-item/${id}`);
+    function confirmItem(id) {
+        history.push(`/inbound/confirm-item/${id}`);
     }
 
-    function takeItem(id) {
-        history.push(`/offer/take-item/${id}`);
+    function cancelItem(id) {
+        history.push(`/inbound/confirm-item/${id}`);
     }
 
     return (
@@ -69,8 +65,8 @@ export default function ListItemComponent(props) {
                                         <td>{item.quantityLeft}</td>
                                         <td>{item.availableStatus ? "Yes" : "No"}</td>
                                         <td>
-                                            <button style={{ marginLeft: "10px" }} onClick={() => takeItem(item.id)} className="btn btn-success">Take</button>
-                                            <button style={{ marginLeft: "10px" }} onClick={() => viewItem(item.id)} className="btn btn-info">View</button>
+                                            <button style={{ marginLeft: "10px" }} onClick={() => confirmItem(item.id)} className="btn btn-success">Confirm</button>
+                                            <button style={{ marginLeft: "10px" }} onClick={() => cancelItem(item.id)} className="btn btn-info">Cancel</button>
                                         </td>
                                     </tr>
                             )
