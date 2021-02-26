@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 
 import UserService from "../../services/user.service";
 
@@ -11,42 +11,34 @@ import UserService from "../../services/user.service";
  * BoardModerator page calls UserService.getModeratorBoard()
  * BoardAdmin page calls UserService.getAdminBoard()
  */
-export default class BoardModerator extends Component {
-    constructor(props) {
-        super(props);
+const BoardModerator = () => {
+    const [content, setContent] = useState("");
 
-        this.state = {
-            content: ""
-        };
-    }
-
-    componentDidMount() {
+    useEffect(() => {
         UserService.getUserBoard().then(
-            response => {
-                this.setState({
-                    content: response.data
-                });
+            (response) => {
+                setContent(response.data);
             },
-            error => {
-                this.setState({
-                    content:
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                        error.message ||
-                        error.toString()
-                });
+            (error) => {
+                const _content =
+                    (error.response &&
+                        error.response.data &&
+                        error.response.data.message) ||
+                    error.message ||
+                    error.toString();
+
+                setContent(_content);
             }
         );
-    }
+    }, []);
 
-    render() {
-        return (
-            <div className="container">
-                <header className="jumbotron">
-                    <h3>{this.state.content}</h3>
-                </header>
-            </div>
-        );
-    }
-}
+    return (
+        <div className="container">
+            <header className="jumbotron">
+                <h3>{content}</h3>
+            </header>
+        </div>
+    );
+};
+
+export default BoardModerator;
