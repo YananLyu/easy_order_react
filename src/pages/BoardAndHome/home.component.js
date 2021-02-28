@@ -27,6 +27,8 @@ const Home = () => {
     return (
         <div className="container">
             <header className="jumbotron">
+                <h1>Welcome to Easy Order Management System</h1>
+                <p>Please login or sign up to use the awesome app</p>
                 <h3>{content}</h3>
             </header>
         </div>
