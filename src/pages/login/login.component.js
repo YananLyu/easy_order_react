@@ -1,15 +1,25 @@
 import React, { useState, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Redirect } from 'react-router-dom';
+
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 
-import AuthService from "../../services/auth.service";
+import { login } from "../../actions/auth";
 
+/**
+ * Login Page
+This page has a Form with username & password.
+– We’re gonna verify them as required field.
+– If the verification is ok, we call AuthService.login() method, then direct user to Profile page: props.history.push("/profile");, or show message with response error.
 
-// This page has a Form with username & password.
-// – We’re gonna verify them as required field.
-// – If the verification is ok, we call AuthService.login() method, 
-// then direct user to Profile page: this.props.history.push("/profile");, or show message with response error.
+For getting the application state and dispatching actions, we use React Redux Hooks useSelector and useDispatch.
+– by checking isLoggedIn, we can redirect user to Profile page.
+– message gives us response message.
+ * @param {*} value 
+ */
+
 const required = (value) => {
     if (!value) {
         return (
@@ -27,7 +37,11 @@ const Login = (props) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState("");
+
+    const { isLoggedIn } = useSelector(state => state.auth);
+    const { message } = useSelector(state => state.message);
+
+    const dispatch = useDispatch();
 
     const onChangeUsername = (e) => {
         const username = e.target.value;
@@ -42,33 +56,27 @@ const Login = (props) => {
     const handleLogin = (e) => {
         e.preventDefault();
 
-        setMessage("");
         setLoading(true);
 
         form.current.validateAll();
 
         if (checkBtn.current.context._errors.length === 0) {
-            AuthService.login(username, password).then(
-                () => {
+            dispatch(login(username, password))
+                .then(() => {
                     props.history.push("/profile");
                     window.location.reload();
-                },
-                (error) => {
-                    const resMessage =
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                        error.message ||
-                        error.toString();
-
+                })
+                .catch(() => {
                     setLoading(false);
-                    setMessage(resMessage);
-                }
-            );
+                });
         } else {
             setLoading(false);
         }
     };
+
+    if (isLoggedIn) {
+        return <Redirect to="/profile" />;
+    }
 
     return (
         <div className="col-md-12">

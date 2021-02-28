@@ -1,21 +1,25 @@
-/*
+/**
+ * Register Page
 This page is similar to Login Page.
 
 For Form Validation, there are some more details:
 
-- username: required, between 3 and 20 characters
-- email: required, email format
-- password: required, between 6 and 40 characters
-We’re gonna call AuthService.register() method and show response message (successful or error).
+username: required, between 3 and 20 characters
+email: required, email format
+password: required, between 6 and 40 characters
+We’re gonna dispatch register action and show response message (successful or error).
  */
 
+
 import React, { useState, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
 
-import AuthService from "../../services/auth.service";
+import { register } from "../../actions/auth";
 
 const required = (value) => {
     if (!value) {
@@ -57,7 +61,7 @@ const vpassword = (value) => {
     }
 };
 
-const Register = (props) => {
+const Register = () => {
     const form = useRef();
     const checkBtn = useRef();
 
@@ -65,7 +69,9 @@ const Register = (props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [successful, setSuccessful] = useState(false);
-    const [message, setMessage] = useState("");
+
+    const { message } = useSelector(state => state.message);
+    const dispatch = useDispatch();
 
     const onChangeUsername = (e) => {
         const username = e.target.value;
@@ -85,29 +91,18 @@ const Register = (props) => {
     const handleRegister = (e) => {
         e.preventDefault();
 
-        setMessage("");
         setSuccessful(false);
 
         form.current.validateAll();
 
         if (checkBtn.current.context._errors.length === 0) {
-            AuthService.register(username, email, password).then(
-                (response) => {
-                    setMessage(response.data.message);
+            dispatch(register(username, email, password))
+                .then(() => {
                     setSuccessful(true);
-                },
-                (error) => {
-                    const resMessage =
-                        (error.response &&
-                            error.response.data &&
-                            error.response.data.message) ||
-                        error.message ||
-                        error.toString();
-
-                    setMessage(resMessage);
+                })
+                .catch(() => {
                     setSuccessful(false);
-                }
-            );
+                });
         }
     };
 
@@ -167,10 +162,7 @@ const Register = (props) => {
 
                     {message && (
                         <div className="form-group">
-                            <div
-                                className={successful ? "alert alert-success" : "alert alert-danger"}
-                                role="alert"
-                            >
+                            <div className={successful ? "alert alert-success" : "alert alert-danger"} role="alert">
                                 {message}
                             </div>
                         </div>

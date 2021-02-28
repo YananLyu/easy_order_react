@@ -1,13 +1,18 @@
 /**
- * This page gets current User from Local Storage by calling AuthService.getCurrentUser() method 
- * and show user information (with token).
+ * Profile Page
+This page gets current User from Local Storage by getting user in the application state and show user information (with token).
  */
 
-import React, { Component } from "react";
-import AuthService from "../../services/auth.service";
+import React from "react";
+import { Redirect } from 'react-router-dom';
+import { useSelector } from "react-redux";
 
 const Profile = () => {
-    const currentUser = AuthService.getCurrentUser();
+    const { user: currentUser } = useSelector((state) => state.auth);
+
+    if (!currentUser) {
+        return <Redirect to="/login" />;
+    }
 
     return (
         <div className="container">

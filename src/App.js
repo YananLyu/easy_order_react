@@ -76,7 +76,8 @@ Board Moderator: roles includes ROLE_MODERATOR
 Board Admin: roles includes ROLE_ADMIN
  */
 import React, { useState, useEffect } from "react";
-import { Switch, Route, Link, BrowserRouter } from "react-router-dom";
+import { Provider, useDispatch, useSelector } from "react-redux";
+import { Switch, Route, Link, BrowserRouter as Router } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
@@ -90,45 +91,65 @@ import BoardUser from "./pages/BoardAndHome/board-user.component";
 import BoardModerator from "./pages/BoardAndHome/board-moderator.component";
 import BoardAdmin from "./pages/BoardAndHome/board-admin.component";
 
+import { logout } from "./actions/auth";
+import { clearMessage } from "./actions/message";
+
+import { history } from "./helpers/history";
+
+import store from './store';
+const AppWrapper = () => {
+  // const store = store();
+
+  return (
+    <Provider store={store}>
+      <App />
+    </Provider>
+  )
+}
+
 const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
   const [showAdminBoard, setShowAdminBoard] = useState(false);
-  const [currentUser, setCurrentUser] = useState(undefined);
+
+  const { user: currentUser } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const user = AuthService.getCurrentUser();
+    history.listen((location) => {
+      dispatch(clearMessage()); // clear message when changing location
+    });
+  }, [dispatch]);
 
-    if (user) {
-      setCurrentUser(user);
-      setShowModeratorBoard(user.roles.includes("ROLE_MODERATOR"));
-      setShowAdminBoard(user.roles.includes("ROLE_ADMIN"));
+  useEffect(() => {
+    if (currentUser) {
+      setShowModeratorBoard(currentUser.roles.includes("ROLE_MODERATOR"));
+      setShowAdminBoard(currentUser.roles.includes("ROLE_ADMIN"));
     }
-  }, []);
+  }, [currentUser]);
 
   const logOut = () => {
     AuthService.logout();
   };
 
   return (
-
-    <div>
-      <BrowserRouter>
+    <Router history={history}>
+      <div>
         <nav className="navbar navbar-expand navbar-dark bg-dark">
           <Link to={"/"} className="navbar-brand">
             bezKoder
-        </Link>
+          </Link>
           <div className="navbar-nav mr-auto">
             <li className="nav-item">
               <Link to={"/home"} className="nav-link">
                 Home
-            </Link>
+              </Link>
             </li>
 
             {showModeratorBoard && (
               <li className="nav-item">
                 <Link to={"/mod"} className="nav-link">
                   Moderator Board
-              </Link>
+                </Link>
               </li>
             )}
 
@@ -136,7 +157,7 @@ const App = () => {
               <li className="nav-item">
                 <Link to={"/admin"} className="nav-link">
                   Admin Board
-              </Link>
+                </Link>
               </li>
             )}
 
@@ -144,7 +165,7 @@ const App = () => {
               <li className="nav-item">
                 <Link to={"/user"} className="nav-link">
                   User
-              </Link>
+                </Link>
               </li>
             )}
           </div>
@@ -159,7 +180,7 @@ const App = () => {
               <li className="nav-item">
                 <a href="/login" className="nav-link" onClick={logOut}>
                   LogOut
-              </a>
+                </a>
               </li>
             </div>
           ) : (
@@ -167,13 +188,13 @@ const App = () => {
                 <li className="nav-item">
                   <Link to={"/login"} className="nav-link">
                     Login
-              </Link>
+                </Link>
                 </li>
 
                 <li className="nav-item">
                   <Link to={"/register"} className="nav-link">
                     Sign Up
-              </Link>
+                </Link>
                 </li>
               </div>
             )}
@@ -190,10 +211,9 @@ const App = () => {
             <Route path="/admin" component={BoardAdmin} />
           </Switch>
         </div>
-      </BrowserRouter>
-
-    </div>
+      </div>
+    </Router>
   );
 };
 
-export default App;
+export default AppWrapper;
