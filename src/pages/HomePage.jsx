@@ -6,16 +6,12 @@ import HomeService from "../services/HomeService";
 
 export default function HomePage(props) {
 
-    const [homeInfo,setHomeInfo] = useState([])
-    // let history = useHistory();
+    const [homeInfo, setHomeInfo] = useState([])
+    let history = useHistory();
 
     useEffect( () => {
             HomeService.getHomeInfo().then(res => {
-                console.log(res.data)
                 setHomeInfo([res.data]);
-                // console.log(homeInfo)
-                // console.log(homeInfo[0])
-                // console.log(typeof homeInfo)
             });
 
     }, []);
