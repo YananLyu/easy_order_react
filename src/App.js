@@ -24,6 +24,7 @@ import BoardUser from "./pages/BoardAndHome/board-user.component";
 import BoardModerator from "./pages/BoardAndHome/board-moderator.component";
 import BoardAdmin from "./pages/BoardAndHome/board-admin.component";
 import Header from './components/layout/Header';
+import PublishOfferPage from "./pages/OfferSubPages/PublishOfferPage";
 
 function App() {
   return (
@@ -42,16 +43,17 @@ function App() {
               <Route exact path="/profile" component={Profile} />
               <Route path="/user" component={BoardUser} />
               <Route path="/mod" component={BoardModerator} />
-              <Route path="/admin" component={BoardAdmin} />
+              <Route exact path="/admin" component={BoardAdmin} />
 
               {/* home */}
               <Route exact path="/"> <HomePage /> </Route>
               <Route exact path="/home"> <HomePage /> </Route>
 
               {/* offer */}
-              <Route exact path="/offer/view-item/:id"><ViewItemPage /></Route>
-              <Route exact path="/offer/take-item/:id"><TakeItemPage /></Route>
-              <Route path="/offer/:id"> <OfferPage /> </Route>
+              <Route path="/admin/offers/publish"> <PublishOfferPage /> </Route>
+              <Route exact path="/offers/view-item/:id"><ViewItemPage /></Route>
+              <Route exact path="/offers/take-item/:id"><TakeItemPage /></Route>
+              <Route path="/offers/:id"> <OfferPage /> </Route>
 
               {/* inbound */}
               <Route exact path="/inbound/confirm-item/:id"> <ConfirmPage /> </Route>
