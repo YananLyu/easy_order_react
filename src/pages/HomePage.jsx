@@ -1,74 +1,103 @@
-import React, { } from 'react'
+import React, {useEffect, useState} from 'react'
 import { Card, CardDeck, ListGroup, ListGroupItem } from 'react-bootstrap';
 
-import ItemService from '../services/ItemService';
+import {useHistory} from "react-router-dom";
+import HomeService from "../services/HomeService";
 
-export default function HomePage(params) {
+export default function HomePage(props) {
+
+    const [homeInfo,setHomeInfo] = useState([])
+    // let history = useHistory();
+
+    useEffect( () => {
+            HomeService.getHomeInfo().then(res => {
+                console.log(res.data)
+                setHomeInfo([res.data]);
+                // console.log(homeInfo)
+                // console.log(homeInfo[0])
+                // console.log(typeof homeInfo)
+            });
+
+    }, []);
+
+    // function viewItem(id) {
+    //     history.push(`/offer/view-item/${id}`);
+    // }
+    //
+    // function takeItem(id) {
+    //     history.push(`/offer/take-item/${id}`);
+    // }
 
     return (
-        <div>
+        <div style={{ padding: '0rem  10rem' }}>
             <CardDeck>
                 <Card
-                    bg='secondary'
                     key={1}
-                    text="light"
-                    style={{ width: '18rem' }}
+                    border="dark"
                     className="mb-2"
                 >
-                    <Card.Header>Offer</Card.Header>
-                    <Card.Body>
-                        <Card.Title> Offer </Card.Title>
-                        <Card.Text>
-                            Information About Offer
-                            </Card.Text>
-                    </Card.Body>
-                    <ListGroup className="list-group-flush" variant="flush strip">
-                        <ListGroupItem action variant="secondary">4 Active Offers</ListGroupItem>
-                        <ListGroupItem action variant="secondary">10 Expired Offers</ListGroupItem>
-                        <ListGroupItem action variant="secondary">0 Proposed Offers</ListGroupItem>
+                    <Card.Title> Offer </Card.Title>
+                    <Card.Text>
+                        请在这里查看offer相关信息
+                    </Card.Text>
+                    <ListGroup className="list-group-flush"
+                        text="primary"
+                    >
+                        {console.log(homeInfo)}
+                        {console.log(homeInfo[0])}
+                        <ListGroupItem action ><Card.Link>{homeInfo.length === 0 ? null : homeInfo[0]["numOfActiveOffers"]} Active Offers</Card.Link></ListGroupItem>
+                        <ListGroupItem action ><Card.Link>{homeInfo.length === 0 ? null : homeInfo[0]["numOfExpiredOffers"]} Expired Offers</Card.Link></ListGroupItem>
+                        <ListGroupItem action ><Card.Link>{homeInfo.length === 0 ? null : homeInfo[0]["numOfProposedOffers"]} Proposed Offers</Card.Link></ListGroupItem>
                     </ListGroup>
                 </Card>
+
                 <Card
-                    bg='info'
-                    key={1}
-                    text="light"
-                    style={{ width: '18rem' }}
+                    key={2}
+                    border="info"
                     className="mb-2"
                 >
-                    <Card.Header>Inbound</Card.Header>
-                    <Card.Body>
-                        <Card.Title> Inbound </Card.Title>
-                        <Card.Text>
-                            Information about Inbound.
-                            </Card.Text>
-                    </Card.Body>
-                    <ListGroup className="list-group-flush" variant="flush">
-                        <ListGroupItem action variant="info">10 Inbound Items</ListGroupItem>
-                        <ListGroupItem action variant="info">History</ListGroupItem>
-                        <ListGroupItem action variant="info">Null</ListGroupItem>
+                    <Card.Title
+                        text="dark"
+                    >Inbound</Card.Title>
+                    <Card.Text>
+                        已购买的产品在这里查看
+                    </Card.Text>
+                    <ListGroup className="list-group-flush">
+                        <ListGroupItem action><Card.Link>{homeInfo.length === 0 ? null : homeInfo[0]["numOfInboundItem"]} Inbound Items</Card.Link></ListGroupItem>
+                        <ListGroupItem action><Card.Link>{homeInfo.length === 0 ? null : homeInfo[0]["numOfReportedItem"]} reported items</Card.Link></ListGroupItem>
                     </ListGroup>
-
                 </Card>
+
+
                 <Card
-                    bg='dark'
-                    key={1}
-                    text="light"
-                    style={{ width: '18rem' }}
+                    key={3}
+                    border="secondary"
                     className="mb-2"
                 >
+                    <Card.Title
+                        text="dark"
+                    >Outbound</Card.Title>
+                    <Card.Text>
+                        如果有货物需要从家邮寄到仓库，信息在这里查看
+                    </Card.Text>
+                    <ListGroup className="list-group-flush">
+                        <ListGroupItem action><Card.Link>{homeInfo.length === 0 ? null : homeInfo[0]["numOfOutboundShipments"]} outbound shipments</Card.Link></ListGroupItem>
+                    </ListGroup>
+                </Card>
 
-                    <Card.Header>Payment</Card.Header>
-                    <Card.Body>
-                        <Card.Title> Payment </Card.Title>
-                        <Card.Text>
-                            Information About Payments.
-                            </Card.Text>
-                    </Card.Body>
-
-                    <ListGroup className="list-group-flush" variant="flush">
-                        <ListGroupItem action variant="dark">2 Payment Request</ListGroupItem>
-                        <ListGroupItem action variant="dark">Pending Transaction</ListGroupItem>
-                        <ListGroupItem action variant="dark">Payment History</ListGroupItem>
+                <Card
+                    key={4}
+                    border="warning"
+                    className="mb-2"
+                >
+                    <Card.Title
+                        text="dark"
+                    >Payments</Card.Title>
+                    <Card.Text>
+                        这里可以查看返款信息
+                    </Card.Text>
+                    <ListGroup className="list-group-flush">
+                        <ListGroupItem action><Card.Link>{homeInfo.length === 0 ? null : homeInfo[0]["numOfPaymentRequests"]} payments requests</Card.Link></ListGroupItem>
                     </ListGroup>
                 </Card>
             </CardDeck>

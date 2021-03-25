@@ -1,4 +1,3 @@
-// import React, { Component } from 'react';
 import React, { useState, useEffect } from 'react';
 import { useHistory } from "react-router-dom";
 
