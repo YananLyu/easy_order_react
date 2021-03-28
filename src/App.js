@@ -1,5 +1,4 @@
 import './App.css';
-import NavBar from './components/layout/NavBar';
 import Landing from './components/layout/Landing';
 import {
   BrowserRouter as Router,
@@ -8,7 +7,7 @@ import {
   // useParams,
 } from "react-router-dom";
 import HomePage from './pages/HomePage';
-import OfferPage from './pages/OfferPage';
+import OffersPage from './pages/OffersPage';
 import InboundPage from './pages/InboundPage';
 import PaymentPage from './pages/PaymentPage';
 import ViewItemPage from './pages/OfferSubPages/ViewItemPage';
@@ -52,8 +51,8 @@ function App() {
               {/* offer */}
               <Route path="/admin/offers/publish"> <PublishOfferPage /> </Route>
               <Route exact path="/offers/view-item/:id"><ViewItemPage /></Route>
-              <Route exact path="/offers/take-item/:id"><TakeItemPage /></Route>
-              <Route path="/offers/:id"> <OfferPage /> </Route>
+              <Route exact path="/offers/take-item/:id"><TakeItemPage/></Route>
+              <Route path="/offers"> <OffersPage/> </Route>
 
               {/* inbound */}
               <Route exact path="/inbound/confirm-item/:id"> <ConfirmPage /> </Route>
@@ -67,17 +66,16 @@ function App() {
               <Route path="/payment/:id" component={PaymentPage} />
 
 
-
-              {/* <Route exact path="/items"> <ListItemComponent /> </Route> */}
+              {/* <Route exact path="/items"> <ListOfferComponent /> </Route> */}
               {/* <Route exact path="/offer" key="_all"> <OfferComponent /> </Route> */}
               {/* <Route exact path="/offer/:id" key="_active"> <OfferComponent /> </Route>
               <Route exact path="/offer/active"> <OfferComponent /> </Route>
-              <Route exact path="/items/_active"><ListItemComponent /></Route> */}
+              <Route exact path="/items/_active"><ListOfferComponent /></Route> */}
 
             </Switch>
           </div>
         </div>
-        <Landing />
+        {/*<Landing />*/}
       </Router>
     </div>
 

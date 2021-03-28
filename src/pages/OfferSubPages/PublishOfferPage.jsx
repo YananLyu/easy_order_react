@@ -18,7 +18,7 @@ export default function PublishOfferPage(props) {
     const postOffer = (event) => {
         event.preventDefault();
         OfferService.publishOffer(offer).then(() => console.log("publish successfully a new offer"));
-        history.push("/home");
+        // history.push("/home");
     }
     return (
         <div style={{ padding: '0rem  10rem' }}>
@@ -27,7 +27,7 @@ export default function PublishOfferPage(props) {
                     <Form.Label>销售平台</Form.Label>
                     <Form.Control
                         type="text"
-                        name = 'platform'
+                        name="platformSeller"
                         onChange={(e) => inputHandler(e)}
                         placeholder="Enter platform name"/>
                 </Form.Group>
@@ -99,7 +99,7 @@ export default function PublishOfferPage(props) {
                     <Form.Label>数量</Form.Label>
                     <Form.Control
                         type="number"
-                        name = 'qty'
+                        name='quantity'
                         onChange={(e) => inputHandler(e)}
                         placeholder="Enter QTY"/>
                 </Form.Group>
@@ -109,7 +109,7 @@ export default function PublishOfferPage(props) {
                     <Form.Control
                         as="textarea" rows={5}
                         type="text"
-                        name = 'note'
+                        name='offerNote'
                         onChange={(e) => inputHandler(e)}
                         placeholder="Write some notes"/>
                 </Form.Group>

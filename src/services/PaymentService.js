@@ -23,4 +23,4 @@ class PaymentService {
 
 }
 
-export default new ItemService();
+export default new PaymentService();

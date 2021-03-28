@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Navbar, Nav, NavDropdown, NavItem } from 'react-bootstrap';
+import React, {useState, useEffect} from "react";
+import {Navbar, Nav} from 'react-bootstrap';
 // import { Navbar, Nav, NavDropdown, Form, FormControl, Button } from 'react-bootstrap';
 
 import AuthService from "../../services/auth.service";
@@ -24,44 +24,35 @@ export default function Header() {
     };
 
     return (
-        // <div>
         <div>
             <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                 {currentUser ? (
                     <Navbar.Brand href="/home">OMS</Navbar.Brand>
 
                 ) : (
-                        <Navbar.Brand href="/welcomehome">OMS</Navbar.Brand>
+                    <Navbar.Brand href="/welcomehome">OMS</Navbar.Brand>
 
-                    )
+                )
                 }
-                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
                 <Navbar.Collapse id="responsive-navbar-nav">
 
                     <Nav className="mr-auto">
                         {currentUser && (
                             <Nav.Link href="/home">Home</Nav.Link>
                         )}
-
                         {currentUser && (
-                            <Nav>
-                                <NavDropdown title="Offer" id="basic-nav-dropdown">
-                                    <NavDropdown.Item href="/offer/all">All</NavDropdown.Item>
-                                    <NavDropdown.Item href="/offer/active">Active</NavDropdown.Item>
-                                    <NavDropdown.Item href="/offer/proposed">Proposed</NavDropdown.Item>
-                                    <NavDropdown.Item href="/offer/expired">Expired</NavDropdown.Item>
-                                </NavDropdown>
-                                <NavDropdown title="Inbound" id="basic-nav-dropdown">
-                                    <NavDropdown.Item href="/inbound/confirm">To Confirm</NavDropdown.Item>
-                                    <NavDropdown.Item href="/inbound/history">history</NavDropdown.Item>
-                                </NavDropdown>
-                                <NavDropdown title="Payment" id="basic-nav-dropdown">
-                                    <NavDropdown.Item href="/payment/request">Payment Request</NavDropdown.Item>
-                                    <NavDropdown.Item href="/payment/unpaid">Unpaid Orders</NavDropdown.Item>
-                                    <NavDropdown.Item href="/payment/pending">Pending transaction</NavDropdown.Item>
-                                    <NavDropdown.Item href="/payment/history">Payment History</NavDropdown.Item>
-                                </NavDropdown>
-                            </Nav>)}
+                            <Nav.Link href="/offers">Offers</Nav.Link>
+                        )}
+                        {currentUser && (
+                            <Nav.Link href="/inbound">Inbound</Nav.Link>
+                        )}
+                        {currentUser && (
+                            <Nav.Link href="/outbound">Outbound</Nav.Link>
+                        )}
+                        {currentUser && (
+                            <Nav.Link href="/payment">Payment</Nav.Link>
+                        )}
 
                         {showModeratorBoard && (
                             <Nav.Link href="/mod">Moderator Board</Nav.Link>
@@ -83,14 +74,14 @@ export default function Header() {
                                 </Nav.Link>
                                 <Nav.Link href="/login" onClick={logOut}>
                                     Logout
-                                        </Nav.Link>
+                                </Nav.Link>
                             </Nav>
                         ) : (
-                                <Nav>
-                                    <Nav.Link href="/login">Login</Nav.Link>
-                                    <Nav.Link href="/register">Sign Up</Nav.Link>
-                                </Nav>
-                            )
+                            <Nav>
+                                <Nav.Link href="/login">Login</Nav.Link>
+                                <Nav.Link href="/register">Sign Up</Nav.Link>
+                            </Nav>
+                        )
                         }
                     </Nav>
                     {/* <Form inline>

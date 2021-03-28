@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import { Card, CardDeck, ListGroup, ListGroupItem } from 'react-bootstrap';
+import {Card, CardDeck, ListGroup, ListGroupItem} from 'react-bootstrap';
 
 import HomeService from "../services/HomeService";
 import {useHistory} from "react-router-dom";
@@ -9,10 +9,14 @@ export default function HomePage(props) {
     const [homeInfo, setHomeInfo] = useState([])
     let history = useHistory();
 
-    useEffect( () => {
-            HomeService.getHomeInfo().then(res => {
+    useEffect(() => {
+        HomeService.getHomeInfo()
+            .then(res => {
                 setHomeInfo([res.data]);
-            });
+            })
+            .catch(
+                () => console.log("Cannot connect to service")
+            );
 
     }, []);
 
@@ -21,7 +25,7 @@ export default function HomePage(props) {
     }
 
     return (
-        <div style={{ padding: '0rem  10rem' }}>
+        <div style={{padding: '0rem  10rem'}}>
             <CardDeck>
                 <Card
                     key={1}
@@ -33,14 +37,20 @@ export default function HomePage(props) {
                         请在这里查看offer相关信息
                     </Card.Text>
                     <ListGroup className="list-group-flush"
-                        text="primary"
+                               text="primary"
                     >
                         {console.log(homeInfo)}
                         {console.log(homeInfo[0])}
-                        <ListGroupItem action ><Card.Link href='offers'>{homeInfo.length === 0 ? 0 : homeInfo[0]["numOfActiveOffers"]} Active Offers</Card.Link></ListGroupItem>
-                        <ListGroupItem action ><Card.Link href='offers/expired'>{homeInfo.length === 0 ? 0 : homeInfo[0]["numOfExpiredOffers"]} Expired Offers</Card.Link></ListGroupItem>
-                        <ListGroupItem action ><Card.Link href='offers/proposed'>{homeInfo.length === 0 ? 0 : homeInfo[0]["numOfProposedOffers"]} Proposed Offers</Card.Link></ListGroupItem>
-                        <ListGroupItem action ><Card.Link onClick={() => publishOffer()}>Publish a new Offer</Card.Link></ListGroupItem>
+                        <ListGroupItem action><Card.Link
+                            href='offers'>{homeInfo.length === 0 ? 0 : homeInfo[0]["numOfActiveOffers"]} Active
+                            Offers</Card.Link></ListGroupItem>
+                        <ListGroupItem action><Card.Link
+                            href='offers/expired'>{homeInfo.length === 0 ? 0 : homeInfo[0]["numOfExpiredOffers"]} Expired
+                            Offers</Card.Link></ListGroupItem>
+                        <ListGroupItem action><Card.Link
+                            href='offers/proposed'>{homeInfo.length === 0 ? 0 : homeInfo[0]["numOfProposedOffers"]} Proposed
+                            Offers</Card.Link></ListGroupItem>
+                        <ListGroupItem action><Card.Link onClick={() => publishOffer()}>Publish a new Offer</Card.Link></ListGroupItem>
                     </ListGroup>
                 </Card>
 
@@ -56,8 +66,12 @@ export default function HomePage(props) {
                         已购买的产品在这里查看
                     </Card.Text>
                     <ListGroup className="list-group-flush">
-                        <ListGroupItem action><Card.Link>{homeInfo.length === 0 ? 0 : homeInfo[0]["numOfInboundItem"]} Inbound Items</Card.Link></ListGroupItem>
-                        <ListGroupItem action><Card.Link>{homeInfo.length === 0 ? 0 : homeInfo[0]["numOfReportedItem"]} reported items</Card.Link></ListGroupItem>
+                        <ListGroupItem
+                            action><Card.Link>{homeInfo.length === 0 ? 0 : homeInfo[0]["numOfInboundItem"]} Inbound
+                            Items</Card.Link></ListGroupItem>
+                        <ListGroupItem
+                            action><Card.Link>{homeInfo.length === 0 ? 0 : homeInfo[0]["numOfReportedItem"]} reported
+                            items</Card.Link></ListGroupItem>
                     </ListGroup>
                 </Card>
 
@@ -74,7 +88,9 @@ export default function HomePage(props) {
                         如果有货物需要从家邮寄到仓库，信息在这里查看
                     </Card.Text>
                     <ListGroup className="list-group-flush">
-                        <ListGroupItem action><Card.Link>{homeInfo.length === 0 ? 0 : homeInfo[0]["numOfOutboundShipments"]} outbound shipments</Card.Link></ListGroupItem>
+                        <ListGroupItem
+                            action><Card.Link>{homeInfo.length === 0 ? 0 : homeInfo[0]["numOfOutboundShipments"]} outbound
+                            shipments</Card.Link></ListGroupItem>
                     </ListGroup>
                 </Card>
 
@@ -90,7 +106,9 @@ export default function HomePage(props) {
                         这里可以查看返款信息
                     </Card.Text>
                     <ListGroup className="list-group-flush">
-                        <ListGroupItem action><Card.Link>{homeInfo.length === 0 ? 0 : homeInfo[0]["numOfPaymentRequests"]} payments requests</Card.Link></ListGroupItem>
+                        <ListGroupItem
+                            action><Card.Link>{homeInfo.length === 0 ? 0 : homeInfo[0]["numOfPaymentRequests"]} payments
+                            requests</Card.Link></ListGroupItem>
                     </ListGroup>
                 </Card>
             </CardDeck>
